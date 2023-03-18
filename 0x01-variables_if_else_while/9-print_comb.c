@@ -1,15 +1,16 @@
-#include <stdlib.h>
-#include <time.h>
+/*
+ * File: 9-print_comb.c
+ * Auth: WillingtonM
+ */
+
 #include <stdio.h>
 
 
-
-/**
- * main - Prints a random number and states whether
+/*
  * main - Prints all possible combinations of single-digit numbers.
+ *
  * Return: Always 0.
-*/
-
+ */
 int main(void)
 {
 	int num;
