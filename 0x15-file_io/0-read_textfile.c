@@ -1,6 +1,5 @@
-
 #include "main.h"
-#include <stdlib.h>
+
 /**
  * read_textfile - reads a text file and prints letters.
  * @filename: A pointer to the filename.
@@ -8,7 +7,6 @@
  *
  * Return: Returns 0, if it fails. Returns number of printed letters
  */
-
 ssize_t read_textfile(const char *filename, size_t letters)
 {
 	int fd;
