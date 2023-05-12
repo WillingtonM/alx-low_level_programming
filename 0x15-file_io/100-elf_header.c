@@ -6,78 +6,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-void printf_magic(unsigned char *elf_ident);
-void check_elf(unsigned char *elf_ident);
-void printf_data(unsigned char *elf_ident);
-void printf_type(unsigned int elf_type, unsigned char *elf_ident);
-void printf_class(unsigned char *elf_ident);
-void printf_osabi(unsigned char *elf_ident);
-void print_entry(unsigned long int elf_entry, unsigned char *elf_ident);
-void printf_abi(unsigned char *elf_ident);
-void printf_version(unsigned char *elf_ident);
-void close_elf(int elf);
-
-/**
- * main - Shows info in the ELF header at start of ELF file.
- * @argc: Number of arguments supplied.
- * @argv: Array of pointers to arguments.
- *
- * Description: exit code 98 If file not ELF or the function fails.
- *
- * Return: Return 1 if it success
- *
- */
-int main(int __attribute__((__unused__)) argc, char *argv[])
-{
-    Elf64_Ehdr *header;
-
-    int fo, fr;
-
-    fo = open(argv[1], O_RDONLY);
-
-    if (fo == -1)
-    {
-        dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
-        exit(98);
-    }
-
-    header = malloc(sizeof(Elf64_Ehdr));
-
-    if (header == NULL)
-    {
-        close_elf(fo);
-        dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
-        exit(98);
-    }
-
-    fr = read(fo, header, sizeof(Elf64_Ehdr));
-
-    if (fr == -1)
-    {
-        free(header);
-        close_elf(fo);
-        dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
-        exit(98);
-    }
-
-    check_elf(header->elf_ident);
-    printf("ELF Header:\n");
-    printf_magic(header->elf_ident);
-    printf_class(header->elf_ident);
-    printf_data(header->elf_ident);
-    printf_version(header->elf_ident);
-    printf_osabi(header->elf_ident);
-    printf_abi(header->elf_ident);
-    printf_type(header->elf_type, header->elf_ident);
-    print_entry(header->elf_entry, header->elf_ident);
-
-    free(header);
-
-    close_elf(fo);
-
-    return (0);
-}
-
 /**
  * check_elf - Checks if a file is an ELF file.
  * @elf_ident: A pointer to an array containing the ELF magic numbers.
@@ -319,4 +247,65 @@ void print_entry(unsigned long int elf_entry, unsigned char *elf_ident)
 
     else
         printf("%#lx\n", elf_entry);
+}
+
+/**
+ * main - Shows info in the ELF header at start of ELF file.
+ * @argc: Number of arguments supplied.
+ * @argv: Array of pointers to arguments.
+ *
+ * Description: exit code 98 If file not ELF or the function fails.
+ *
+ * Return: Return 1 if it success
+ *
+ */
+int main(int __attribute__((__unused__)) argc, char *argv[])
+{
+    Elf64_Ehdr *header;
+
+    int fo, fr;
+
+    fo = open(argv[1], O_RDONLY);
+
+    if (fo == -1)
+    {
+        dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+        exit(98);
+    }
+
+    header = malloc(sizeof(Elf64_Ehdr));
+
+    if (header == NULL)
+    {
+        close_elf(fo);
+        dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+        exit(98);
+    }
+
+    fr = read(fo, header, sizeof(Elf64_Ehdr));
+
+    if (fr == -1)
+    {
+        free(header);
+        close_elf(fo);
+        dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
+        exit(98);
+    }
+
+    check_elf(header->elf_ident);
+    printf("ELF Header:\n");
+    printf_magic(header->elf_ident);
+    printf_class(header->elf_ident);
+    printf_data(header->elf_ident);
+    printf_version(header->elf_ident);
+    printf_osabi(header->elf_ident);
+    printf_abi(header->elf_ident);
+    printf_type(header->elf_type, header->elf_ident);
+    print_entry(header->elf_entry, header->elf_ident);
+
+    free(header);
+
+    close_elf(fo);
+
+    return (0);
 }
