@@ -9,26 +9,26 @@
  */
 int create_file(const char *filename, char *text_content)
 {
-	int fd, nletters, fw;
+	int fd_o, n_letters, fw;
 
 	if (filename == NULL)
 		return (-1);
 
-	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	fd_o = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 
-	if (fd == -1)
+	if (fd_o == -1)
 		return (-1);
 
 	if (text_content != NULL)
-		for (nletters = 0; text_content[nletters];)
-			nletters++;
+		for (n_letters = 0; text_content[n_letters];)
+			n_letters++;
 
-	fw = write(fd, text_content, nletters);
+	fw = write(fd_o, text_content, n_letters);
 
 	if (fw == -1)
 		return (-1);
 
-	close(fd);
+	close(fd_o);
 
 	return (1);
 }
