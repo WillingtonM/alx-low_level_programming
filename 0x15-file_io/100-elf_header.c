@@ -12,16 +12,16 @@
  *
  * Description: error code 98 If the file is not ELF file.
  */
-void check_elf(unsigned char *elf_ident)
+void check_elf(unsigned char *e_ident)
 {
-    int index_n;
+    int index;
 
-    for (index_n = 0; index_n < 4; index_n++)
+    for (index = 0; index < 4; index++)
     {
-        if (elf_ident[index_n] != 127 &&
-            elf_ident[index_n] != 'E' &&
-            elf_ident[index_n] != 'L' &&
-            elf_ident[index_n] != 'F')
+        if (e_ident[index] != 127 &&
+            e_ident[index] != 'E' &&
+            e_ident[index] != 'L' &&
+            e_ident[index] != 'F')
         {
             dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
             exit(98);
@@ -33,11 +33,11 @@ void check_elf(unsigned char *elf_ident)
  * printf_class - Prints class of ELF header.
  * @elf_ident: A pointer to array containing ELF class.
  */
-void printf_class(unsigned char *elf_ident)
+void print_class(unsigned char *e_ident)
 {
     printf("  Class:                             ");
 
-    switch (elf_ident[EI_CLASS])
+    switch (e_ident[EI_CLASS])
     {
     case ELFCLASSNONE:
         printf("none\n");
@@ -49,7 +49,7 @@ void printf_class(unsigned char *elf_ident)
         printf("ELF64\n");
         break;
     default:
-        printf("<unknown: %x>\n", elf_ident[EI_CLASS]);
+        printf("<unknown: %x>\n", e_ident[EI_CLASS]);
     }
 }
 
@@ -59,17 +59,17 @@ void printf_class(unsigned char *elf_ident)
  *
  * Description: Magic numbers separated by spaces.
  */
-void printf_magic(unsigned char *elf_ident)
+void print_magic(unsigned char *e_ident)
 {
-    int index_n;
+    int index;
 
     printf("  Magic:   ");
 
-    for (index_n = 0; index_n < EI_NIDENT; index_n++)
+    for (index = 0; index < EI_NIDENT; index++)
     {
-        printf("%02x", elf_ident[index_n]);
+        printf("%02x", e_ident[index]);
 
-        if (index_n == EI_NIDENT - 1)
+        if (index == EI_NIDENT - 1)
             printf("\n");
         else
             printf(" ");
@@ -80,11 +80,11 @@ void printf_magic(unsigned char *elf_ident)
  * printf_data - Prints data of ELF header.
  * @elf_ident: Pointer to array containing ELF class.
  */
-void printf_data(unsigned char *elf_ident)
+void print_data(unsigned char *e_ident)
 {
     printf("  Data:                              ");
 
-    switch (elf_ident[EI_DATA])
+    switch (e_ident[EI_DATA])
     {
     case ELFDATANONE:
         printf("none\n");
@@ -96,7 +96,7 @@ void printf_data(unsigned char *elf_ident)
         printf("2's complement, big endian\n");
         break;
     default:
-        printf("<unknown: %x>\n", elf_ident[EI_CLASS]);
+        printf("<unknown: %x>\n", e_ident[EI_CLASS]);
     }
 }
 
@@ -104,12 +104,12 @@ void printf_data(unsigned char *elf_ident)
  * printf_version - Prints version of ELF header.
  * @elf_ident: Pointer to array containing ELF version.
  */
-void printf_version(unsigned char *elf_ident)
+void print_version(unsigned char *e_ident)
 {
     printf("  Version:                           %d",
-           elf_ident[EI_VERSION]);
+           e_ident[EI_VERSION]);
 
-    switch (elf_ident[EI_VERSION])
+    switch (e_ident[EI_VERSION])
     {
     case EV_CURRENT:
         printf(" (current)\n");
@@ -124,10 +124,10 @@ void printf_version(unsigned char *elf_ident)
  * printf_abi - Print ABI version of ELF header.
  * @elf_ident: Pointer to array containing ELF ABI version.
  */
-void printf_abi(unsigned char *elf_ident)
+void print_abi(unsigned char *e_ident)
 {
     printf("  ABI Version:                       %d\n",
-           elf_ident[EI_ABIVERSION]);
+           e_ident[EI_ABIVERSION]);
 }
 
 /**
@@ -135,14 +135,14 @@ void printf_abi(unsigned char *elf_ident)
  * @elf_type: The ELF type.
  * @elf_ident: A pointer to an array containing the ELF class.
  */
-void printf_type(unsigned int elf_type, unsigned char *elf_ident)
+void print_type(unsigned int e_type, unsigned char *e_ident)
 {
-    if (elf_ident[EI_DATA] == ELFDATA2MSB)
-        elf_type >>= 8;
+    if (e_ident[EI_DATA] == ELFDATA2MSB)
+        e_type >>= 8;
 
     printf("  Type:                              ");
 
-    switch (elf_type)
+    switch (e_type)
     {
     case ET_NONE:
         printf("NONE (None)\n");
@@ -160,20 +160,19 @@ void printf_type(unsigned int elf_type, unsigned char *elf_ident)
         printf("CORE (Core file)\n");
         break;
     default:
-        printf("<unknown: %x>\n", elf_type);
+        printf("<unknown: %x>\n", e_type);
     }
 }
-
 
 /**
  * printf_osabi - Print OS/ABI of ELF header.
  * @elf_ident: Pointer to array containing ELF version.
  */
-void printf_osabi(unsigned char *elf_ident)
+void print_osabi(unsigned char *e_ident)
 {
     printf("  OS/ABI:                            ");
 
-    switch (elf_ident[EI_OSABI])
+    switch (e_ident[EI_OSABI])
     {
     case ELFOSABI_NONE:
         printf("UNIX - System V\n");
@@ -206,7 +205,7 @@ void printf_osabi(unsigned char *elf_ident)
         printf("Standalone App\n");
         break;
     default:
-        printf("<unknown: %x>\n", elf_ident[EI_OSABI]);
+        printf("<unknown: %x>\n", e_ident[EI_OSABI]);
     }
 }
 
@@ -231,22 +230,22 @@ void close_elf(int elf)
  * @elf_entry: Address of ELF entry point.
  * @elf_ident: Pointer to array containing ELF class.
  */
-void print_entry(unsigned long int elf_entry, unsigned char *elf_ident)
+void print_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
     printf("  Entry point address:               ");
 
-    if (elf_ident[EI_DATA] == ELFDATA2MSB)
+    if (e_ident[EI_DATA] == ELFDATA2MSB)
     {
-        elf_entry = ((elf_entry << 8) & 0xFF00FF00) |
-                  ((elf_entry >> 8) & 0xFF00FF);
-        elf_entry = (elf_entry << 16) | (elf_entry >> 16);
+        e_entry = ((e_entry << 8) & 0xFF00FF00) |
+                  ((e_entry >> 8) & 0xFF00FF);
+        e_entry = (e_entry << 16) | (e_entry >> 16);
     }
 
-    if (elf_ident[EI_CLASS] == ELFCLASS32)
-        printf("%#x\n", (unsigned int)elf_entry);
+    if (e_ident[EI_CLASS] == ELFCLASS32)
+        printf("%#x\n", (unsigned int)e_entry);
 
     else
-        printf("%#lx\n", elf_entry);
+        printf("%#lx\n", e_entry);
 }
 
 /**
