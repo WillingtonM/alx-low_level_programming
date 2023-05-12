@@ -1,8 +1,7 @@
 #include "main.h"
 #include <stdio.h>
-#include <stdlib.h>
 
-#define N_CHAR N_CHAR
+#define N_CHAR 1024
 
 void file_error_handle(int file_from, int file_to, char *argv[]);
 void file_close(int fd);
