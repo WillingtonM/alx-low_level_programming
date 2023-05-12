@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include <stdlib.h>
 /**
  * read_textfile - reads a text file and prints letters.
  * @filename: A pointer to the filename.
@@ -9,28 +9,32 @@
  */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	ssize_t fd_o, fd_r, fd_w;
-	char *buffer;
+	char *buff;
+	ssize_t fd_o, fr, fw;
 
 	if (filename == NULL)
 		return (0);
 
-	buffer = malloc(sizeof(char) * letters);
-	if (buffer == NULL)
+	fd_o = open(filename, O_RDONLY);
+
+	if (fd_o == -1)
 		return (0);
 
-	fd_o = open(filename, O_RDONLY);
-	fd_r = read(fd_o, buffer, letters);
-	fd_w = write(STDOUT_FILENO, buffer, fd_r);
+	buff = malloc(sizeof(char) * letters);
+	if (buff == NULL)
+		return (0);
 
-	if (fd_o == -1 || fd_r == -1 || fd_w == -1 || fd_w != fd_r)
+	fr = read(fd_o, buff, letters);
+	fw = write(STDOUT_FILENO, buff, fr);
+
+	if (fr == -1 || fw == -1 || fw != fr)
 	{
-		free(buffer);
+		free(buff);
 		return (0);
 	}
 
-	free(buffer);
+	free(buff);
 	close(fd_o);
 
-	return (fd_w);
+	return (fw);
 }
