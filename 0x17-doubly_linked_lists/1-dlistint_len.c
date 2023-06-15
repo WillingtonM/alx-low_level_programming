@@ -9,6 +9,7 @@
 size_t dlistint_len(const dlistint_t *h)
 {
 	int counter;
+
 	counter = 0;
 	if (h == NULL)
 		return (counter);
