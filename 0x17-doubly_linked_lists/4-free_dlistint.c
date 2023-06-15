@@ -3,18 +3,18 @@
 
 /**
  * free_dlistint - free a dlistint_t list
- * @head: pointer to the head of the list
+ * @head: pointer to the beginning of the linked list
  *
  * Return: no return
  */
 void free_dlistint(dlistint_t *head)
 {
-    dlistint_t *next;
+	dlistint_t *next_node;
 
-    while (head != NULL)
-    {
-        next = head->next;
-        free(head);
-        head = next;
-    }
+	while (head != NULL)
+	{
+		next_node = head->next;
+		free(head);
+		head = next_node;
+	}
 }
