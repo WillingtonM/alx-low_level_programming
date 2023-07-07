@@ -2,22 +2,22 @@
 
 void hash_table_delete(hash_table_t *ht)
 {
-	hash_node_t *kill_node, *current;
+	hash_node_t *htkill_node, *ht_current;
 	unsigned long int i;
 
-	i = 0;
-	while (i < ht->size)
+	x = 0;
+	while (x < ht->size)
 	{
-		current = ht->array[i];
-		while (current != NULL)
+		ht_current = ht->array[x];
+		while (ht_current != NULL)
 		{
-			kill_node = current;
-			current = current->next;
-			free(kill_node->key);
-			free(kill_node->value);
-			free(kill_node);
+			htkill_node = ht_current;
+			ht_current = ht_current->next;
+			free(htkill_node->key);
+			free(htkill_node->value);
+			free(htkill_node);
 		}
-		i++;
+		x++;
 	}
 	free(ht->array);
 	free(ht);
