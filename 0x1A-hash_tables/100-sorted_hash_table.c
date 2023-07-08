@@ -182,7 +182,7 @@ void shash_table_print(const shash_table_t *ht)
 void shash_table_delete(shash_table_t *ht)
 {
 	shash_table_t *head = ht;
-	shash_node_t *n_tmp , *h_node;
+	shash_node_t *n_tmp, *h_node;
 
 	if (ht == NULL)
 		return;

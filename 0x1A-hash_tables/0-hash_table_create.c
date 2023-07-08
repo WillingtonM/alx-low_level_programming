@@ -10,7 +10,7 @@
   */
 hash_table_t *hash_table_create(unsigned long int size)
 {
-	unsigned long int i = 0;
+	unsigned long int j;
 	hash_node_t **ht_arr = NULL;
 	hash_table_t *hash_t = NULL;
 
@@ -22,7 +22,7 @@ hash_table_t *hash_table_create(unsigned long int size)
 	if (ht_arr == NULL)
 		return (NULL);
 
-	for (; i < size; ++i)
+	for (j = 0; j < size; ++j)
 		ht_arr[i] = NULL;
 
 	hash_t->size = size;
