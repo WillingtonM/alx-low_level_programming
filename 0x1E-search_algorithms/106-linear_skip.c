@@ -7,6 +7,8 @@
  * @value: Value to search for.
  * Return: If value is not present or head of list is NULL, NULL.
  *         Otherwise, pointer to first node where value is located.
+ * Description: Prints value every time it is compared inlist.
+ *              Uses square root of list size as jmp step.
  */
 skiplist_t *linear_skip(skiplist_t *list, int value)
 {
@@ -16,13 +18,17 @@ skiplist_t *linear_skip(skiplist_t *list, int value)
 	if (list == NULL)
 		return (NULL);
 
-	for (nd = jmp = list; jmp->next != NULL && jmp->n < value;) {
+	for (nd = jmp = list; jmp->next != NULL && jmp->n < value;)
+	{
 		nd = jmp;
-		if (jmp->express != NULL) {
+		if (jmp->express != NULL)
+		{
 			jmp = jmp->express;
 			printf("Value checked at index [%ld] = [%d]\n",
 					jmp->index, jmp->n);
-		} else {
+		}
+		else
+		{
 			while (jmp->next != NULL)
 				jmp = jmp->next;
 		}
