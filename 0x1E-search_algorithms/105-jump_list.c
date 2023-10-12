@@ -9,36 +9,32 @@
  *
  * Return: If value is not present or head of list is NULL, NULL.
  *         Otherwise, a pointer to first node where value is located.
- * Description: Prints value every time it is compared in list.
- *              Uses square root of list size as jump step.
  */
 listint_t *jump_list(listint_t *list, size_t size, int value)
 {
 	size_t stp, stp_size;
-	listint_t *node, *jump;
+	listint_t *nd, *jmp;
 
 	if (list == NULL || size == 0)
 		return (NULL);
 
 	stp = 0;
 	stp_size = sqrt(size);
-	for (node = jump = list; jump->index + 1 < size && jump->n < value;)
-	{
-		node = jump;
-		for (stp += stp_size; jump->index < stp; jump = jump->next)
-		{
-			if (jump->index + 1 == size)
+	for (nd = jmp = list; jmp->index + 1 < size && jmp->n < value;) {
+		nd = jmp;
+		for (stp += stp_size; jmp->index < stp; jmp = jmp->next) {
+			if (jmp->index + 1 == size)
 				break;
 		}
-		printf("Value checked at index [%ld] = [%d]\n", jump->index, jump->n);
+		printf("Value checked at index [%ld] = [%d]\n", jmp->index, jmp->n);
 	}
 
 	printf("Value found between indexes [%ld] and [%ld]\n",
-			node->index, jump->index);
+			nd->index, jmp->index);
 
-	for (; node->index < jump->index && node->n < value; node = node->next)
-		printf("Value checked at index [%ld] = [%d]\n", node->index, node->n);
-	printf("Value checked at index [%ld] = [%d]\n", node->index, node->n);
+	for (; nd->index < jmp->index && nd->n < value; nd = nd->next)
+		printf("Value checked at index [%ld] = [%d]\n", nd->index, nd->n);
+	printf("Value checked at index [%ld] = [%d]\n", nd->index, nd->n);
 
-	return (node->n == value ? node : NULL);
+	return (nd->n == value ? nd : NULL);
 }
