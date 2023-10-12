@@ -10,8 +10,8 @@
  */
 int rec_search(int *array, size_t size, int value)
 {
-	size_t z;
 	size_t hlf = size / 2;
+	size_t z;
 
 	if (array == NULL || size == 0)
 		return (-1);
@@ -26,7 +26,8 @@ int rec_search(int *array, size_t size, int value)
 	if (hlf && size % 2 == 0)
 		hlf--;
 
-	if (value == array[hlf]) {
+	if (value == array[hlf])
+	{
 		if (hlf > 0)
 			return (rec_search(array, hlf + 1, value));
 		return ((int)hlf);

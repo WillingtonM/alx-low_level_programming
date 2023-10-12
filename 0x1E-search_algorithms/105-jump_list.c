@@ -9,6 +9,8 @@
  *
  * Return: If value is not present or head of list is NULL, NULL.
  *         Otherwise, a pointer to first node where value is located.
+ * Description: Prints value every time it is compared in list.
+ *              Uses square root of list size as jump step.
  */
 listint_t *jump_list(listint_t *list, size_t size, int value)
 {
@@ -20,9 +22,11 @@ listint_t *jump_list(listint_t *list, size_t size, int value)
 
 	stp = 0;
 	stp_size = sqrt(size);
-	for (nd = jmp = list; jmp->index + 1 < size && jmp->n < value;) {
+	for (nd = jmp = list; jmp->index + 1 < size && jmp->n < value;)
+	{
 		nd = jmp;
-		for (stp += stp_size; jmp->index < stp; jmp = jmp->next) {
+		for (stp += stp_size; jmp->index < stp; jmp = jmp->next)
+		{
 			if (jmp->index + 1 == size)
 				break;
 		}
